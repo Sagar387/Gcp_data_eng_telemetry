@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  spark-job:
+    build: .
+    container_name: ironman-spark
+    volumes:
+      # 1. Mounts your code folder so edits happen instantly
+      - ./src:/home/jovyan/src
+      
+      # 2. THE CRITICAL KEY FILE
+      # I used your actual username 'patel' here to guarantee it works.
+      # Note: We use forward slashes (/) even on Windows for Docker.
+      - C:/Users/patel/AppData/Roaming/gcloud/application_default_credentials.json:/tmp/keys/gcp-creds.json
+      
+    environment:
+      # This tells Python inside the container where to look for that key
+      - GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/gcp-creds.json
+      
+      # <--- PASTE YOUR PROJECT ID BELOW (e.g. ironman-telemetry-123)
+      - GCP_PROJECT_ID=pulse-stream-core
+      
+    command: tail -f /dev/null

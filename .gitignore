@@ -1,0 +1,11 @@
+# Ignore Virtual Env
+venv/
+__pycache__/
+*.pyc
+
+# Ignore Secrets (CRITICAL)
+.env
+*.json
+*.key
+client_secret*.json
+gcp_key.json

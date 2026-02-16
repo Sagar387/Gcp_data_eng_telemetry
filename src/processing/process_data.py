@@ -13,29 +13,31 @@ def main():
         .getOrCreate()
     print("Spark Session Started!")
     
+    # Set bucket name
+    BUCKET_NAME = "telemetry-lake-sagar"
+    
     # Define schema 
-    schema = StructField([
+    schema = StructType([
         StructField("event_uuid", StringType(), True),
         StructField("athlete_id", StringType(), True),
         StructField("timestamp", StringType(), True),
         StructField("heart_rate", DoubleType(), True),
         StructField("speed", DoubleType(), True),
-        StructField("location", StringType(), True),
-        
+        StructField("location", StringType(), True)
     ])
         
     # Read the telemetry data (Data swamp currently)
     # Read the raw json files in the cloud storage bucket
     raw_df = spark.read \
         .schema(schema) \
-        .json(f"gs://{"telemetry-lake-sagar"}/raw_telemetry/*.json")
+        .json(f"gs://{BUCKET_NAME}/raw_telemetry/*.json")
     
     print(f"Ingested {raw_df.count()} raw records.")
     
     # Read the Reference Json file in Cloud Storage
     athlete_df = spark.read \
         .option("multiline", "true") \
-        .json(f"gs://{"telemetry-lake-sagar"}/reference_data/athelte.json")
+        .json(f"gs://{BUCKET_NAME}/reference_data/athlete.json")
         
     # Data Cleaning Bronze layer
     
@@ -50,15 +52,15 @@ def main():
     
     # Adding names and countries to the telemetry
     # Joining with the same athlete id
-    final_df = clean_df.join(athlete_df, "athelte_id","left")
+    final_df = clean_df.join(athlete_df, "athlete_id","right")
     
     # Checking
-    final_df.select("name", "country", "heart_rate", "speed", "times_stamp").show(5)
+    final_df.select("name", "country", "heart_rate", "speed", "timestamp").show(5)
     
     # Write : save this to silver layer (parquet format as it is faster than json)
     final_df.write \
         .mode("overwrite") \
-        .parquet(f"gs://{"telemetry-lake-sagar"}/silver_telemetry/")
+        .parquet(f"gs://{BUCKET_NAME}/silver_telemetry/")
         
     print("Data has successfully been writen to silver layer")
     
@@ -67,3 +69,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+    

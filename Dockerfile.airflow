@@ -1,11 +1,12 @@
-# Container for airflow orchastration.
-
-# Official Airflow image as base
+# Start with official Airflow
 FROM apache/airflow:2.8.1
 
-# Switch to root to install additional dependencies
+# Switch to root to install the latest Docker CLI directly
 USER root
-RUN apt-get update && apt-get install -y docker.io
+RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-25.0.3.tgz -o docker.tgz \
+    && tar xzvf docker.tgz \
+    && mv docker/docker /usr/local/bin/ \
+    && rm -rf docker docker.tgz
 
 # Switch back to airflow user
 USER airflow

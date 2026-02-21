@@ -1,0 +1,11 @@
+# Container for airflow orchastration.
+
+# Official Airflow image as base
+FROM apache/airflow:2.8.1
+
+# Switch to root to install additional dependencies
+USER root
+RUN apt-get update && apt-get install -y docker.io
+
+# Switch back to airflow user
+USER airflow

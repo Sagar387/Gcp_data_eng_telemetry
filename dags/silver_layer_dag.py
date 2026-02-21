@@ -17,7 +17,7 @@ with DAG(
     'pulse_stream_silver_layer_dag',
     default_args=default_args,
     description='A DAG to trigger pyspark job inside the spark container to process data from bronze to silver layer',
-    schedule_interval=timedelta(daily=True),
+    schedule="@hourly",
     start_date = datetime(2026, 2, 20),
     catchup=False,
     tags=['pyspark', 'silver-layer', 'data_processing'], ) as dag:
@@ -25,7 +25,6 @@ with DAG(
     # "docker exec" runs the script inside  SPARK container
     run_silver_pyspark_job = BashOperator(
         task_id='trigger_spark_processing',
-        bash_command='docker exec ironman-spark python /home/jovyan/src/processing/process_data.py',
-    )
+        bash_command='docker exec ironman-spark spark-submit /home/jovyan/src/processing/process_data.py',    )
     
     run_silver_pyspark_job

@@ -5,7 +5,7 @@ services:
     container_name: ironman-spark
     volumes:
       - ./src:/home/jovyan/src
-      - C:/Users/patel/AppData/Roaming/gcloud/application_default_credentials.json:/tmp/keys/gcp-creds.json
+      - ./keys/gcp-creds.json:/tmp/keys/gcp-creds.json
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/gcp-creds.json
       - GCP_PROJECT_ID=pulse-stream-core

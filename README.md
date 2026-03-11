@@ -20,50 +20,7 @@ The project covers the full data engineering lifecycle: ingestion → orchestrat
 
 ## 🏗️ Architecture
 
-```mermaid
-graph TD
-    subgraph Sources
-        IoT[("📡 IoT Sensors (generator.py)")]
-    end
-
-    subgraph Speed_Layer [Real-Time Ingestion]
-        Kafka[("Apache Kafka (Confluent Cloud)")]
-    end
-
-    subgraph Data_Lake [Google Cloud Storage — Medallion Architecture]
-        Bronze[("🟤 Bronze Layer — Raw JSON")]
-        Silver[("⚪ Silver Layer — Clean Parquet")]
-        DLQ[("🛑 Dead Letter Queue — Bad Records")]
-    end
-
-    subgraph Orchestration_Compute [Local Docker Environment]
-        Airflow[("⏱️ Apache Airflow (Orchestrator)")]
-        Spark[("⚡ PySpark (process_data.py)")]
-    end
-
-    subgraph Consumption_Layer [Serving Layer]
-        BQ[("🗄️ Google BigQuery")]
-        Looker[("📊 Looker Studio")]
-        Streamlit[("🛠️ Streamlit Ops Dashboard")]
-    end
-
-    IoT -->|High-throughput stream| Kafka
-    Kafka -->|gcs_consumer.py batches| Bronze
-    Airflow -.->|spark-submit trigger| Spark
-    Spark -->|Reads raw data| Bronze
-    Spark -->|Validated + Parquet| Silver
-    Spark -->|Malformed records| DLQ
-    Silver -->|Load| BQ
-    BQ --> Looker
-    BQ --> Streamlit
-    Kafka -->|Live feed| Streamlit
-
-    style IoT fill:#f9f,stroke:#333,stroke-width:2px
-    style Kafka fill:#ff9,stroke:#333,stroke-width:2px
-    style Data_Lake fill:#e1f5fe,stroke:#333,stroke-width:2px
-    style Orchestration_Compute fill:#fff3e0,stroke:#333,stroke-width:2px
-    style Consumption_Layer fill:#e8f5e9,stroke:#333,stroke-width:2px
-```
+![Pulse Stream Architecture](Screenshots/Pulse_Stream_Arc.drawio.png)
 
 ---
 

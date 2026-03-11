@@ -191,10 +191,10 @@ python src/consumer/gcs_consumer.py
 ![Airflow](Screenshots/Airflow-docker.png)
 
 ### Kakfa real time streaming
-![Looker Dashboard](Screenshots/Confluent Kafka.png)
+![Looker Dashboard](Screenshots/Confluent_Kafka.png)
 
 ### Looker Studio — Geospatial Analytics
-![Looker Dashboard](Screenshots/Looker-Charts.png)
+![Looker Dashboard](Screenshots/Looker_Charts.png)
 
 ---
 

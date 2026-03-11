@@ -24,7 +24,7 @@ The pipeline is split into three distinct layers to handle massive data volume e
 * **Medallion Architecture & DLQ:** PySpark reads the raw Bronze data, enforces a strict schema, and performs transformations.
   * *Clean records* are converted to columnar Parquet files and written to the Silver Layer.
   * *Malformed records* are caught and quarantined in a **Dead Letter Queue (DLQ)**, ensuring 99.9% data accuracy and zero pipeline failures.
-
+  * 
 ### 3. The Serving Layer (Data Warehouse & Dashboards)
 * Clean Silver data is loaded into **Google BigQuery**, where it is aggregated into a Gold Layer for analytics.
 * **Looker Studio** connects to BigQuery for sub-second, historical geospatial analytics.
@@ -71,25 +71,3 @@ graph TD
     style Data_Lake fill:#e1f5fe,stroke:#333,stroke-width:2px
     style Orchestration_Compute fill:#fff3e0,stroke:#333,stroke-width:2px
     style Consumption_Layer fill:#e8f5e9,stroke:#333,stroke-width:2px
-
-'''
-├── config/                  # Configuration files for connections
-├── dags/                    # ⏱️ Apache Airflow DAG definitions
-│   └── silver_layer_dag.py
-├── Screenshots/             # 📸 Dashboard UI screenshots
-├── src/                     # 🐍 Core Python & PySpark logic
-│   ├── consumer/            # Kafka to GCS consumer
-│   │   └── gcs_consumer.py
-│   ├── processing/          # PySpark Medallion logic & DLQ enforcement
-│   │   └── process_data.py
-│   └── producer/            # IoT Sensor data generator
-│       └── generator.py
-├── tests/                   # 🧪 Unit testing framework
-├── .env                     # Environment variables (ignored in git)
-├── .gitignore               # Ignored files/folders
-├── app.py                   # 🛠️ Streamlit Operations Dashboard
-├── athlete.json             # Sample payload/schema definitions
-├── docker-compose.yaml      # 🐳 Multi-container architecture
-├── Dockerfile               # Custom PySpark container image
-├── Dockerfile.airflow       # Custom Airflow image with integrated Docker CLI
-└── requirements.txt         # Python project dependencies

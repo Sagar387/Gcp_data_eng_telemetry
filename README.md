@@ -196,8 +196,4 @@ python src/consumer/gcs_consumer.py
 ### Looker Studio — Geospatial Analytics
 ![Looker Dashboard](Screenshots/Looker_Charts.png)
 
----
 
-## 📄 License
-
-MIT

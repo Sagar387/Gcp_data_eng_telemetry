@@ -187,7 +187,14 @@ python src/consumer/gcs_consumer.py
 
 ## 📸 Screenshots
 
-> *(Add your Looker Studio dashboard and Streamlit app screenshots here)*
+### Streamlit Ops Dashboard
+![Airflow](Screenshots/Airflow-docker.png)
+
+### Kakfa real time streaming
+![Looker Dashboard](Screenshots/Confluent Kafka.png)
+
+### Looker Studio — Geospatial Analytics
+![Looker Dashboard](Screenshots/Looker-Charts.png)
 
 ---
 
